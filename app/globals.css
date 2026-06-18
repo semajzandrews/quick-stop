@@ -1,0 +1,345 @@
+@import "tailwindcss";
+
+/* Quick Stop · Tokens
+   Lineage: electric-night corner store, neon open-sign, magenta city glow,
+   diagonal kinetic ribbons of everyday inventory. Khand condensed signage. */
+@theme {
+  --color-night:    #0B0710;   /* electric-night ground */
+  --color-night-2:  #130A1A;
+  --color-night-3:  #1C1026;
+  --color-chalk:    #F4EEF6;   /* warm chalk white */
+  --color-chalk-2:  #CDBFD3;
+  --color-magenta:  #8E3B8E;   /* locked accent */
+  --color-magenta-2:#B24FB2;
+  --color-neon:     #E879E8;   /* hot neon tube core */
+  --color-amber:    #F2B441;   /* lotto / warm secondary spark */
+  --color-cyan:     #46D5E0;   /* cold-drink cooler spark */
+  --color-rule:     rgba(244,238,246,0.12);
+  --color-rule-2:   rgba(244,238,246,0.30);
+
+  --font-display: "Khand", "Oswald", ui-sans-serif, system-ui, sans-serif;
+  --font-body:    "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  :root {
+    --night:#0B0710; --night-2:#130A1A; --night-3:#1C1026;
+    --chalk:#F4EEF6; --chalk-2:#CDBFD3;
+    --magenta:#8E3B8E; --magenta-2:#B24FB2; --neon:#E879E8;
+    --amber:#F2B441; --cyan:#46D5E0;
+    --rule:rgba(244,238,246,0.12); --rule-2:rgba(244,238,246,0.30);
+  }
+  html, body {
+    background: var(--night);
+    color: var(--chalk);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+  }
+  a { color: inherit; text-decoration: none; }
+  ::selection { background: var(--magenta); color: var(--chalk); }
+}
+
+/* ---- Type helpers ---- */
+.font-display { font-family: var(--font-display); }
+.display-tight {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 0.92;
+  letter-spacing: 0.005em;
+  text-transform: uppercase;
+}
+
+/* ---- Night grain + city glow ---- */
+.night-grain { position: relative; }
+.night-grain::before {
+  content: "";
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(120% 80% at 8% -10%, rgba(142,59,142,0.30), transparent 55%),
+    radial-gradient(90% 70% at 100% 0%, rgba(70,213,224,0.07), transparent 50%),
+    radial-gradient(120% 90% at 50% 120%, rgba(142,59,142,0.16), transparent 60%);
+  mix-blend-mode: screen;
+}
+.night-grain::after {
+  content: "";
+  position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.05;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/></filter><rect width='160' height='160' filter='url(%23n)'/></svg>");
+  mix-blend-mode: overlay;
+}
+.relative-z { position: relative; z-index: 1; }
+
+/* ---- Neon helpers ---- */
+.neon-text {
+  color: var(--chalk);
+  text-shadow:
+    0 0 4px rgba(232,121,232,0.9),
+    0 0 14px rgba(178,79,178,0.8),
+    0 0 30px rgba(142,59,142,0.6);
+}
+
+/* ---- Buttons (layered so utilities can override display) ---- */
+@layer components {
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    gap: 0.5rem; font-family: var(--font-display); font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.06em; font-size: 1.05rem;
+    padding: 0.7rem 1.5rem; border-radius: 999px; transition: all .25s ease;
+    line-height: 1;
+  }
+  .btn-neon {
+    background: var(--magenta); color: var(--chalk);
+    box-shadow: 0 0 0 1px rgba(232,121,232,0.5),
+      0 0 18px rgba(142,59,142,0.55), inset 0 0 12px rgba(232,121,232,0.25);
+  }
+  .btn-neon:hover {
+    background: var(--magenta-2);
+    box-shadow: 0 0 0 1px rgba(232,121,232,0.9),
+      0 0 28px rgba(178,79,178,0.85), inset 0 0 16px rgba(232,121,232,0.4);
+  }
+  .btn-ghost {
+    background: transparent; color: var(--chalk);
+    border: 1px solid var(--rule-2);
+  }
+  .btn-ghost:hover { border-color: var(--neon); color: var(--neon); }
+}
+
+/* ---- Diagonal ribbon marquee ---- */
+.ribbon-track {
+  display: inline-flex; white-space: nowrap; will-change: transform;
+  animation: ribbon-scroll var(--rib-dur, 38s) linear infinite;
+}
+.ribbon-track.rev { animation-direction: reverse; }
+@keyframes ribbon-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ---- Reveal (visible-by-default, pure-CSS, armed) ---- */
+.reveal { opacity: 1; }
+html.reveal-armed .reveal {
+  opacity: 0;
+  animation: revealRise .8s cubic-bezier(0.22,1,0.36,1) forwards;
+  animation-delay: var(--d, 0s);
+}
+@keyframes revealRise {
+  from { opacity: 0; transform: translateY(26px); }
+  to   { opacity: 1; transform: none; }
+}
+html.reveal-done .reveal {
+  animation: none !important; opacity: 1 !important; transform: none !important;
+}
+
+/* ---- Wordmark badge (QS in a neon tag) ---- */
+.qs-mark {
+  position: relative; display: inline-flex; align-items: center; justify-content: center;
+  height: 34px; width: 34px; border-radius: 9px;
+  background: linear-gradient(150deg, var(--magenta), var(--night-3));
+  box-shadow: 0 0 0 1px rgba(232,121,232,0.5), 0 0 14px rgba(142,59,142,0.55);
+  font-family: var(--font-display); font-weight: 700; overflow: hidden;
+}
+.qs-mark-q, .qs-mark-s {
+  font-size: 1.05rem; line-height: 1; color: var(--chalk);
+  text-shadow: 0 0 6px rgba(232,121,232,0.8);
+}
+.qs-mark-q { margin-right: -2px; }
+.qs-mark-s { margin-left: -2px; color: var(--neon); }
+
+@keyframes qs-pulse-k {
+  0%,100% { box-shadow: 0 0 0 0 rgba(232,121,232,0.7); }
+  50%     { box-shadow: 0 0 0 5px rgba(232,121,232,0); }
+}
+.qs-pulse { animation: qs-pulse-k 2.4s ease-in-out infinite; }
+
+/* ---- Neon OPEN sign (the signature) ---- */
+@keyframes neon-flicker {
+  0%, 18%, 22%, 25%, 53%, 57%, 100% { opacity: 1; }
+  20%, 24%, 55% { opacity: 0.72; }
+}
+.neon-on { animation: neon-flicker 6s linear infinite; }
+@media (prefers-reduced-motion: reduce) { .neon-on { animation: none; } }
+
+/* ---- Diagonal ribbon band ---- */
+.qs-ribbons { overflow: hidden; }
+.qs-ribbon-skew {
+  transform: rotate(-3.2deg) scale(1.06);
+  transform-origin: center;
+}
+
+/* ---- Section eyebrow tag ---- */
+.qs-tag {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-family: var(--font-display); text-transform: uppercase;
+  letter-spacing: 0.18em; font-size: 0.78rem; font-weight: 500;
+  color: var(--neon);
+}
+.qs-tag::before {
+  content: ""; width: 26px; height: 2px;
+  background: linear-gradient(90deg, var(--magenta), var(--neon));
+  box-shadow: 0 0 8px rgba(232,121,232,0.7);
+}
+
+/* ---- The neon OPEN sign (signature) ---- */
+.qs-sign-wrap { display: flex; flex-direction: column; align-items: center; gap: 0.9rem; }
+.qs-sign {
+  position: relative; border-radius: 18px; padding: 1.6rem 2.2rem 1.4rem;
+  background:
+    radial-gradient(120% 140% at 50% 0%, rgba(142,59,142,0.18), transparent 70%),
+    linear-gradient(180deg, #120A18, #0A0610);
+  border: 1px solid rgba(232,121,232,0.18);
+  min-width: min(86vw, 360px);
+  text-align: center;
+}
+.qs-sign.is-on {
+  box-shadow: 0 0 0 1px rgba(232,121,232,0.35),
+    0 0 50px -10px rgba(142,59,142,0.7), inset 0 0 30px rgba(142,59,142,0.18);
+}
+.qs-sign.is-off { box-shadow: inset 0 0 30px rgba(0,0,0,0.6); border-color: var(--rule); }
+
+.qs-sign-frame {
+  border: 1.5px solid rgba(232,121,232,0.25); border-radius: 12px;
+  padding: 1.1rem 1rem 0.9rem; display: flex; flex-direction: column; gap: 0.35rem;
+}
+.is-off .qs-sign-frame { border-color: var(--rule); }
+
+.qs-sign-word {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(3.2rem, 13vw, 5rem); line-height: 0.85;
+  letter-spacing: 0.04em; color: #FBEFFB;
+}
+.is-on .qs-sign-word {
+  text-shadow:
+    0 0 6px #fff,
+    0 0 16px var(--neon),
+    0 0 34px var(--magenta-2),
+    0 0 60px var(--magenta);
+}
+.is-off .qs-sign-word { color: #3a2f40; text-shadow: none; }
+
+.qs-sign-sub {
+  font-family: var(--font-display); text-transform: uppercase;
+  letter-spacing: 0.28em; font-size: 0.74rem; color: var(--chalk-2);
+}
+.is-on .qs-sign-sub { color: var(--neon); text-shadow: 0 0 10px rgba(232,121,232,0.6); }
+
+.qs-sign-readout {
+  margin-top: 1rem; display: inline-flex; align-items: center; gap: 0.5rem;
+  font-size: 0.8rem; letter-spacing: 0.03em; color: var(--chalk-2);
+}
+.qs-dot {
+  height: 8px; width: 8px; border-radius: 50%;
+  background: var(--neon); box-shadow: 0 0 8px var(--neon);
+}
+.is-off .qs-dot { background: var(--chalk-2); box-shadow: none; }
+.qs-sign-hours {
+  font-size: 0.78rem; letter-spacing: 0.04em; color: var(--chalk-2);
+}
+
+/* ---- Photo figure (magenta-graded) ---- */
+.qs-photo {
+  position: relative; overflow: hidden; border-radius: 16px;
+  border: 1px solid var(--rule); aspect-ratio: 16 / 10;
+  box-shadow: 0 14px 50px -24px rgba(142,59,142,0.6);
+}
+.qs-photo img {
+  filter: saturate(0.85) contrast(1.05) brightness(0.92);
+  transition: transform .7s cubic-bezier(0.22,1,0.36,1);
+}
+.qs-photo:hover img { transform: scale(1.05); }
+.qs-photo::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background:
+    linear-gradient(180deg, transparent 40%, rgba(11,7,16,0.92) 100%),
+    radial-gradient(120% 80% at 80% 10%, rgba(142,59,142,0.32), transparent 60%);
+  mix-blend-mode: multiply;
+}
+.qs-photo::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 1;
+  background: linear-gradient(200deg, rgba(232,121,232,0.10), transparent 55%);
+  mix-blend-mode: screen;
+}
+.qs-photo-cap {
+  position: absolute; left: 1rem; bottom: 0.85rem; z-index: 2;
+  font-family: var(--font-display); text-transform: uppercase;
+  letter-spacing: 0.06em; font-size: 0.92rem; color: var(--chalk);
+  text-shadow: 0 1px 8px rgba(0,0,0,0.8);
+}
+
+/* ---- Day timeline stop ---- */
+.qs-stop {
+  display: grid; grid-template-columns: 92px 1fr; gap: 1.2rem;
+  padding: 1.4rem 0; border-top: 1px solid var(--rule);
+}
+.qs-stop:last-child { border-bottom: 1px solid var(--rule); }
+.qs-stop-time {
+  font-family: var(--font-display); font-weight: 600; font-size: 1.05rem;
+  color: var(--neon); letter-spacing: 0.02em; padding-top: 0.35rem;
+  text-shadow: 0 0 10px rgba(232,121,232,0.4);
+}
+
+/* ---- Map ---- */
+.qs-map {
+  position: relative; overflow: hidden; border-radius: 16px;
+  border: 1px solid var(--rule); height: 100%; min-height: 340px;
+  box-shadow: 0 14px 50px -24px rgba(142,59,142,0.6);
+}
+.qs-map iframe {
+  border: 0; filter: invert(0.92) hue-rotate(190deg) saturate(1.1) contrast(0.95);
+}
+
+/* ---- bysemaj credit ---- */
+.qs-credit {
+  font-family: var(--font-display); text-transform: uppercase;
+  letter-spacing: 0.1em; font-size: 0.78rem; color: var(--chalk-2);
+  transition: color .25s ease;
+}
+.qs-credit span { color: var(--neon); }
+.qs-credit:hover { color: var(--chalk); }
+.qs-credit:hover span { text-shadow: 0 0 10px rgba(232,121,232,0.6); }
+
+/* ---- Corner panel + quote ---- */
+.qs-corner-panel {
+  border-radius: 24px; padding: clamp(1.6rem, 4vw, 3.4rem);
+  background:
+    radial-gradient(110% 120% at 0% 0%, rgba(142,59,142,0.18), transparent 55%),
+    linear-gradient(170deg, var(--night-2), var(--night));
+  border: 1px solid var(--rule);
+}
+.qs-quote {
+  margin-top: 1.8rem; padding-left: 1.1rem;
+  border-left: 2px solid var(--neon);
+  font-family: var(--font-display); font-size: 1.5rem; font-weight: 500;
+  line-height: 1.2; color: var(--chalk); font-style: normal;
+}
+.qs-quote cite {
+  display: block; margin-top: 0.5rem; font-family: var(--font-body);
+  font-size: 0.82rem; font-style: normal; letter-spacing: 0.04em;
+  color: var(--chalk-2); text-transform: none;
+}
+
+/* ---- Stat band ---- */
+.qs-stat-num {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(2.6rem, 7vw, 4.2rem); line-height: 1;
+  color: var(--chalk);
+  text-shadow: 0 0 24px rgba(142,59,142,0.5);
+}
+
+/* ---- Card surface ---- */
+.qs-card {
+  position: relative; border-radius: 16px;
+  background: linear-gradient(170deg, var(--night-2), var(--night));
+  border: 1px solid var(--rule);
+  transition: border-color .3s ease, transform .3s ease, box-shadow .3s ease;
+}
+.qs-card:hover {
+  border-color: rgba(232,121,232,0.55);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px -18px rgba(142,59,142,0.7);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ribbon-track { animation: none !important; }
+  html.reveal-armed .reveal { animation: none !important; opacity: 1 !important; }
+  .qs-pulse { animation: none !important; }
+}
