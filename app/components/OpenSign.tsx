@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { STORE, getStatus } from "./store";
+import { getStatus } from "./store";
 
 /** Hand-built neon OPEN sign wired to the LIVE clock.
  *  6 AM to 9 PM: lit, buzzing, reads OPEN. Otherwise: dim glass, reads CLOSED. */
@@ -27,13 +27,6 @@ export default function OpenSign() {
           <span className={`qs-sign-word ${lit ? "neon-on" : ""}`}>{lit ? "OPEN" : "CLOSED"}</span>
           <span className="qs-sign-sub">
             {lit ? "Come on in" : "See you at 6 AM"}
-          </span>
-        </div>
-        {/* live readout */}
-        <div className="qs-sign-readout">
-          <span className="qs-dot" />
-          <span suppressHydrationWarning>
-            {mounted ? (st.open ? `Open now · ${st.clock}` : `Closed · ${st.clock}`) : "Open 6 AM to 9 PM"}
           </span>
         </div>
       </div>
