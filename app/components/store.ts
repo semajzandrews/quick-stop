@@ -25,6 +25,7 @@ export function getStatus(now: Date) {
 
 export const NAV_LINKS = [
   { href: "#aisles", label: "The Aisles" },
+  { href: "#store", label: "Step Inside" },
   { href: "#daily", label: "Your Day" },
   { href: "#corner", label: "The Corner" },
   { href: "#visit", label: "Visit" },

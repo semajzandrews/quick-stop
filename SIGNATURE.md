@@ -20,6 +20,25 @@ night, with **diagonal kinetic ribbons** of everyday inventory streaming across 
 page (COFFEE · COLD DRINKS · LOTTO · ATM · SNACKS · GAS · SMOKES · GROCERIES). It reads
 instantly as "the corner store that has it all and is always on."
 
+## Hero media (06-18-2026 enhancement) — VIDEO
+Used a HERO VIDEO, not a still. A 24/7-feel neon corner store is the ideal video
+candidate (BUILD_RULES §7): the chosen clip is a real red+blue neon "OPEN" sign
+glowing in a shop window at night (Pexels 19888594), trimmed to an 18s muted loop,
+compressed to storefront-night.mp4 (766KB) + .webm (641KB), poster
+storefront-poster.jpg, magenta-graded via a CSS overlay so it fits the electric-night
+palette. It sits full-bleed BEHIND the existing neon wordmark + the hand-built OPEN
+sign, so the neon signature stays the star and the page now reads instantly as a real
+night shop. Mobile: muted + playsInline + autoplay with a JS reduced-motion guard
+(HeroVideo.tsx) that holds the poster still and never plays; poster preloads so it is
+never blank. Why video over a photo: the live, flickering neon is the brand's whole
+"always-on storefront" idea in motion, and the file is tiny enough to stay performant.
+
+Added a new "Step Inside" gallery (Storefront.tsx) of authentic bodega photography
+(Black/Caribbean/Latino community fit per City of Orange): a clerk behind a stocked
+counter w/ hanging plantains, a customer at the in-store ATM under LOTTO signage,
+snack shelves, a cold-drink cooler, and a friendly shopkeeper. Strengthens the
+"this is a real, stocked store" read alongside the existing coffee + hot-food shots.
+
 ## Signature moment
 **THE OPEN SIGN** — a real, hand-built neon "OPEN" sign in the hero that is wired to the
 LIVE clock: between 6 AM and 9 PM the tubes are lit (magenta buzz, faint flicker, glow

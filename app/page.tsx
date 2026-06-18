@@ -2,6 +2,7 @@ import Nav from "./components/Nav";
 import Hero from "./components/Hero";
 import Ribbons from "./components/Ribbons";
 import Aisles from "./components/Aisles";
+import Storefront from "./components/Storefront";
 import Daily from "./components/Daily";
 import Corner from "./components/Corner";
 import Visit from "./components/Visit";
@@ -17,6 +18,7 @@ export default function Page() {
         <Hero />
         <Ribbons />
         <Aisles />
+        <Storefront />
         <Daily />
         <Corner />
         <Visit />

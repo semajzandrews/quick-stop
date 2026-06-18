@@ -1,11 +1,20 @@
-import { STORE } from "./store";
 import OpenSign from "./OpenSign";
+import HeroVideo from "./HeroVideo";
 import { Reveal } from "./Reveal";
 
 export default function Hero() {
   return (
-    <section id="top" className="relative-z overflow-hidden px-5 pt-28 pb-10 md:px-8 md:pt-36">
-      <div className="mx-auto grid max-w-[1240px] items-center gap-10 lg:grid-cols-[1.15fr_0.85fr]">
+    <section
+      id="top"
+      className="qs-hero relative isolate overflow-hidden px-5 pt-28 pb-12 md:px-8 md:pt-36 md:pb-16"
+    >
+      {/* Real night-shop footage: a neon OPEN sign glowing in a storefront window.
+          Muted, looping, behind everything. Reduced-motion holds the poster still. */}
+      <HeroVideo />
+      {/* Magenta electric-night grade so the footage fits the art direction */}
+      <div className="qs-hero-grade" aria-hidden />
+
+      <div className="relative mx-auto grid max-w-[1240px] items-center gap-10 lg:grid-cols-[1.15fr_0.85fr]">
         {/* Left: statement */}
         <div>
           <Reveal>
