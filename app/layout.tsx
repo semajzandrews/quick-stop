@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Khand, Inter } from "next/font/google";
 import SmoothScroll from "./components/SmoothScroll";
-import NightGlow from "./components/NightGlow";
 import "./globals.css";
 
 const display = Khand({
@@ -32,7 +31,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${display.variable} ${body.variable} antialiased`}
     >
       <body className="bg-night text-chalk min-h-screen night-grain">
-        <NightGlow />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
