@@ -22,7 +22,15 @@ export default function OpenSign() {
   return (
     <div className="qs-sign-wrap" suppressHydrationWarning>
       <div className={`qs-sign ${lit ? "is-on" : "is-off"}`}>
-        {/* tube frame */}
+        {/* hanging chains, like a real window sign */}
+        <span className="qs-sign-chain qs-sign-chain-l" aria-hidden />
+        <span className="qs-sign-chain qs-sign-chain-r" aria-hidden />
+
+        {/* bent-glass tube frame (real stroked SVG tube, not a CSS border) */}
+        <svg className="qs-sign-tube" viewBox="0 0 320 150" aria-hidden preserveAspectRatio="none">
+          <rect x="6" y="6" width="308" height="138" rx="16" />
+        </svg>
+
         <div className="qs-sign-frame">
           <span className={`qs-sign-word ${lit ? "neon-on" : ""}`}>{lit ? "OPEN" : "CLOSED"}</span>
           <span className="qs-sign-sub">
