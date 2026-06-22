@@ -1,4 +1,3 @@
-import OpenSign from "./OpenSign";
 import HeroVideo from "./HeroVideo";
 import { Reveal } from "./Reveal";
 
@@ -9,14 +8,17 @@ export default function Hero() {
       className="qs-hero relative isolate overflow-hidden px-5 pt-28 pb-12 md:px-8 md:pt-36 md:pb-16"
     >
       {/* Real night-shop footage: a neon OPEN sign glowing in a storefront window.
-          Muted, looping, behind everything. Reduced-motion holds the poster still. */}
+          This footage IS the hero — it already carries the lit OPEN sign, so no
+          second rendered sign sits over it. Muted, looping, behind everything.
+          Reduced-motion holds the poster still. */}
       <HeroVideo />
-      {/* Magenta electric-night grade so the footage fits the art direction */}
+      {/* Keep the footage clean: a dark vignette + readability scrim for the copy
+          on the left. No second purple glow competing with the video. */}
       <div className="qs-hero-grade" aria-hidden />
 
-      <div className="relative mx-auto grid max-w-[1240px] items-center gap-10 lg:grid-cols-[1.15fr_0.85fr]">
-        {/* Left: statement */}
-        <div>
+      <div className="relative mx-auto max-w-[1240px]">
+        {/* Statement, set over the clean footage (its real OPEN sign reads on the right) */}
+        <div className="max-w-[42rem]">
           <Reveal>
             <span className="qs-tag">Main Street · Orange, NJ</span>
           </Reveal>
@@ -61,11 +63,6 @@ export default function Hero() {
             </div>
           </Reveal>
         </div>
-
-        {/* Right: the signature neon sign */}
-        <Reveal delay={0.2} className="flex justify-center lg:justify-end">
-          <OpenSign />
-        </Reveal>
       </div>
     </section>
   );
