@@ -23,9 +23,29 @@ export default function Visit() {
         </Reveal>
 
         <div className="mt-10 grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-          {/* Map */}
+          {/* Map (Google keyless embed; branded fallback sits behind it so the
+              frame is never a blank void if the embed is ever blocked) */}
           <Reveal>
             <div className="qs-map">
+              <a
+                className="qs-map-fallback"
+                href={`https://www.google.com/maps/search/?api=1&query=${STORE.mapsQuery}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-hidden
+                tabIndex={-1}
+              >
+                <span className="qs-map-pin" aria-hidden>
+                  <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                    <circle cx="12" cy="10" r="3" />
+                  </svg>
+                </span>
+                <span className="qs-map-fb-addr">
+                  {STORE.street}, {STORE.city}, {STORE.state}
+                </span>
+                <span className="qs-map-fb-link">Open in Google Maps</span>
+              </a>
               <iframe
                 title="Quick Stop on Main Street, Orange NJ"
                 src={`https://www.google.com/maps?q=${STORE.mapsQuery}&output=embed`}
