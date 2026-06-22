@@ -1,7 +1,5 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-
 const WORDS = [
   "COFFEE", "COLD DRINKS", "LOTTO", "ATM", "SNACKS", "GROCERIES",
   "GAS", "CANDY", "ICE CREAM", "WATER", "CHIPS", "ENERGY DRINKS",
@@ -42,40 +40,13 @@ function Band({
   );
 }
 
-/** Diagonal kinetic inventory ribbons. Scroll velocity nudges the speed. */
+/** Diagonal kinetic inventory ribbons.
+ *  Each band glides autonomously at its own constant speed via a CSS keyframe
+ *  loop (see .ribbon-track in globals.css) — fully independent of scroll
+ *  position so the motion stays steady. prefers-reduced-motion holds them still. */
 export default function Ribbons() {
-  const wrapRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) return;
-    let last = window.scrollY;
-    let raf = 0;
-    let speed = 1;
-    const onScroll = () => {
-      const dy = Math.abs(window.scrollY - last);
-      last = window.scrollY;
-      speed = Math.min(3.4, 1 + dy * 0.05);
-      const tracks = wrapRef.current?.querySelectorAll<HTMLElement>(".ribbon-track");
-      tracks?.forEach((t) => (t.style.animationDuration = `${Math.max(8, 30 / speed)}s`));
-      cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(decay);
-    };
-    const decay = () => {
-      speed = Math.max(1, speed - 0.06);
-      const tracks = wrapRef.current?.querySelectorAll<HTMLElement>(".ribbon-track");
-      tracks?.forEach((t) => (t.style.animationDuration = `${Math.max(8, 30 / speed)}s`));
-      if (speed > 1.02) raf = requestAnimationFrame(decay);
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      cancelAnimationFrame(raf);
-    };
-  }, []);
-
   return (
-    <div ref={wrapRef} className="qs-ribbons relative-z select-none" aria-hidden>
+    <div className="qs-ribbons relative-z select-none" aria-hidden>
       <div className="qs-ribbon-skew">
         {/* back ribbon: large outline type, faint, drifts slow (depth) */}
         <div className="qs-ribbon-back">
